@@ -1,0 +1,19 @@
+TITLE: ML EFA with metric data
+       1 to 6 factors, Promax rotation
+
+DATA: file = mvs.dat;
+      LISTWISE=ON;
+
+VARIABLE: 
+  names = idnum satopt ars ars01 im mvs1-mvs18;
+  usevar = mvs1-mvs18;
+
+  missing = all(-99);
+
+ANALYSIS: 
+  ESTIMATOR=ML;
+  ROTATION=PROMAX;
+  TYPE = EFA 1 6;
+
+OUTPUT: TECH1;
+

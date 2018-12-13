@@ -1,0 +1,130 @@
+TITLE: cfa with metric data (18 items)
+       2 correlated method factors for regular and reversed items
+       with equal loadings per method factor
+
+DATA: file = mvs.dat;
+
+VARIABLE: 
+  names = idnum satopt ars ars01 im mvs1-mvs18;
+  usevar = mvs1 mvs2 mvs3 mvs7 mvs8 mvs9 mvs13 mvs14 mvs15
+           mvs4o mvs5o mvs6o mvs10o mvs11o mvs12o mvs16o mvs17o mvs18o;
+
+  missing = all(-99);
+
+DEFINE:
+
+  mvs4o=6-mvs4;
+  mvs5o=6-mvs5;
+  mvs6o=6-mvs6;
+  mvs10o=6-mvs10;
+  mvs11o=6-mvs11;
+  mvs12o=6-mvs12;
+  mvs16o=6-mvs16;
+  mvs17o=6-mvs17;
+  mvs18o=6-mvs18;
+
+ANALYSIS: 
+
+  ESTIMATOR=ML;
+
+MODEL:
+
+     suc BY mvs1*0.58537 (l1);
+     suc BY mvs2*0.32217 (l2);
+     suc BY mvs3*0.59869 (l3);
+     suc BY mvs4o*-0.42855 (l4);
+     suc BY mvs5o*-0.29871 (l5);
+     suc BY mvs6o*-0.33012 (l6);
+     cen BY mvs7*0.29252 (l7);
+     cen BY mvs8*0.05628 (l8);
+     cen BY mvs9*0.64515 (l9);
+     cen BY mvs10o*-0.28377 (l10);
+     cen BY mvs11o*0.02703 (l11);
+     cen BY mvs12o*-0.28772 (l12);
+     hap BY mvs13*0.66689 (l13);
+     hap BY mvs14*0.76896 (l14);
+     hap BY mvs15*0.38281 (l15);
+     hap BY mvs16o*-0.30667 (l16);
+     hap BY mvs17o*-0.59185 (l17);
+     hap BY mvs18o*-0.37649 (l18);
+     pos BY mvs1*0.26326 (p);
+     pos BY mvs2*0.40678 (p);
+     pos BY mvs3*0.45541 (p);
+     pos BY mvs7*0.32280 (p);
+     pos BY mvs8*0.77828 (p);
+     pos BY mvs9*0.42681 (p);
+     pos BY mvs13*0.39492 (p);
+     pos BY mvs14*0.44978 (p);
+     pos BY mvs15*0.39994 (p);
+     neg BY mvs4o*0.39076 (n);
+     neg BY mvs5o*0.29156 (n);
+     neg BY mvs6o*0.51664 (n);
+     neg BY mvs10o*0.51972 (n);
+     neg BY mvs11o*0.25014 (n);
+     neg BY mvs12o*0.53472 (n);
+     neg BY mvs16o*0.19422 (n);
+     neg BY mvs17o*0.32189 (n);
+     neg BY mvs18o*0.45531 (n);
+
+     suc WITH cen*0.59935;
+     suc WITH hap*0.58050;
+     suc WITH pos@0;
+     suc WITH neg@0;
+     cen WITH hap*0.36723;
+     cen WITH pos@0;
+     cen WITH neg@0;
+     pos WITH neg*-0.58610 (posneg);
+     pos WITH hap@0;
+     neg WITH hap@0;
+
+     [ mvs1*3.35921 ];
+     [ mvs2*2.36282 ];
+     [ mvs3*3.08664 ];
+     [ mvs7*2.60469 ];
+     [ mvs8*3.48195 ];
+     [ mvs9*3.29964 ];
+     [ mvs13*3.16606 ];
+     [ mvs14*3.42960 ];
+     [ mvs15*3.34838 ];
+     [ mvs4o*3.08123 ];
+     [ mvs5o*3.28700 ];
+     [ mvs6o*2.77978 ];
+     [ mvs10o*2.96209 ];
+     [ mvs11o*2.42960 ];
+     [ mvs12o*3.14621 ];
+     [ mvs16o*3.65523 ];
+     [ mvs17o*2.77617 ];
+     [ mvs18o*3.26895 ];
+
+     mvs1*0.67161 (ev1);
+     mvs2*0.80064 (ev2);
+     mvs3*0.62769 (ev3);
+     mvs7*0.77610 (ev7);
+     mvs8*0.37422 (ev8);
+     mvs9*0.44173 (ev9);
+     mvs13*0.47860 (ev13);
+     mvs14*0.35461 (ev14);
+     mvs15*0.89955 (ev15);
+     mvs4o*0.64141 (ev4);
+     mvs5o*0.73641 (ev5);
+     mvs6o*0.55811 (ev6);
+     mvs10o*0.58623 (ev10);
+     mvs11o*0.79195 (ev11);
+     mvs12o*0.53368 (ev12);
+     mvs16o*0.73476 (ev16);
+     mvs17o*0.60952 (ev17);
+     mvs18o*0.53457 (ev18);
+     suc@1;
+     cen@1;
+     hap@1;
+     pos@1;
+     neg@1;
+
+MODEL CONSTRAINT:
+
+  posneg>-1;
+  posneg<1;
+
+OUTPUT: TECH1 MOD (3.84) svalues CINTERVAL standardized; 
+
+

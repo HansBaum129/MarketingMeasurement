@@ -1,0 +1,96 @@
+TITLE: cfa with metric data (18 items)
+       correlated uniquenesses for regular items
+
+DATA: file = mvs.dat;
+
+VARIABLE: 
+  names = idnum satopt ars ars01 im mvs1-mvs18;
+  usevar = mvs1 mvs2 mvs3 mvs7 mvs8 mvs9 mvs13 mvs14 mvs15
+           mvs4o mvs5o mvs6o mvs10o mvs11o mvs12o mvs16o mvs17o mvs18o;
+
+  missing = all(-99);
+
+DEFINE:
+
+  mvs4o=6-mvs4;
+  mvs5o=6-mvs5;
+  mvs6o=6-mvs6;
+  mvs10o=6-mvs10;
+  mvs11o=6-mvs11;
+  mvs12o=6-mvs12;
+  mvs16o=6-mvs16;
+  mvs17o=6-mvs17;
+  mvs18o=6-mvs18;
+
+ANALYSIS: 
+
+  ESTIMATOR=ML;
+
+MODEL:
+
+  SUC BY mvs1*1 (l1)
+         mvs2 (l2) 
+         mvs3 (l3) 
+         mvs4o (l4) 
+         mvs5o (l5) 
+         mvs6o (l6);
+  CEN BY mvs7*1 (l7)
+         mvs8 (l8) 
+         mvs9 (l9) 
+         mvs10o (l10) 
+         mvs11o (l11) 
+         mvs12o (l12);
+  HAP BY mvs13*1 (l13) 
+         mvs14 (l14) 
+         mvs15 (l15) 
+         mvs16o (l16) 
+         mvs17o (l17) 
+         mvs18o (l18); 
+
+  SUC@1;
+  CEN@1;
+  HAP@1;
+
+  SUC WITH CEN;
+  SUC WITH HAP;
+  CEN WITH HAP;
+
+  mvs1 (ev1);
+  mvs2 (ev2);
+  mvs3 (ev3);
+  mvs4o (ev4);
+  mvs5o (ev5);
+  mvs6o (ev6);
+  mvs7 (ev7);
+  mvs8 (ev8);
+  mvs9 (ev9);
+  mvs10o (ev10);
+  mvs11o (ev11);
+  mvs12o (ev12);
+  mvs13 (ev13);
+  mvs14 (ev14);
+  mvs15 (ev15);
+  mvs16o (ev16);
+  mvs17o (ev17);
+  mvs18o (ev18);
+
+  mvs1 WITH mvs2 mvs3 mvs7 mvs8 mvs9 mvs13 mvs14 mvs15;
+  mvs2 WITH mvs3 mvs7 mvs8 mvs9 mvs13 mvs14 mvs15;
+  mvs3 WITH mvs7 mvs8 mvs9 mvs13 mvs14 mvs15;
+
+  mvs7 WITH mvs8 mvs9 mvs13 mvs14 mvs15;
+  mvs8 WITH mvs9 mvs13 mvs14 mvs15;
+  mvs9 WITH mvs13 mvs14 mvs15;
+
+  mvs13 WITH mvs14 mvs15;
+  mvs14 WITH mvs15;
+
+MODEL CONSTRAINT:
+
+  l4<0;
+  l10<0;
+  l16<0;
+
+OUTPUT: TECH1 MOD (3.84) svalues CINTERVAL standardized; 
+
+
