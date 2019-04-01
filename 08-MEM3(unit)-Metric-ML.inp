@@ -1,0 +1,85 @@
+TITLE: 2 implicit ars method factors, unit loadings
+
+DATA: file = mvs.dat;
+
+VARIABLE: 
+  names = idnum satopt ars ars01 im mvs1-mvs18;
+  usevar = mvs1 mvs2 mvs3 mvs7 mvs8 mvs9 mvs13 mvs14 mvs15
+           mvs4o mvs5o mvs6o mvs10o mvs11o mvs12o mvs16o mvs17o mvs18o;
+
+  missing = all(-99);
+
+DEFINE:
+
+  mvs4o=6-mvs4;
+  mvs5o=6-mvs5;
+  mvs6o=6-mvs6;
+  mvs10o=6-mvs10;
+  mvs11o=6-mvs11;
+  mvs12o=6-mvs12;
+  mvs16o=6-mvs16;
+  mvs17o=6-mvs17;
+  mvs18o=6-mvs18;
+
+ANALYSIS: 
+
+  ESTIMATOR=ML;
+
+MODEL:
+
+  suc BY mvs1*.5 mvs2*.5 mvs3*.5 mvs4o*-.5 mvs5o*-.5 mvs6o*-.5;
+  cen BY mvs7*.5 mvs8*.5 mvs9*.5 mvs10o*-.5 mvs11o*-.5 mvs12o*-.5;
+  hap BY mvs13*.5 mvs14*.5 mvs15*.5 mvs16o*-.5 mvs17o*-.5 mvs18o*-.5;
+
+  m1 by mvs1@1 mvs2@1 mvs3@1 mvs4o@1 mvs5o@1 mvs6o@1
+        mvs7@1 mvs8@1 mvs9@1 mvs10o@1 mvs11o@1 mvs12o@1;
+  m2 by mvs13@1 mvs14@1 mvs15@1 mvs16o@1 mvs17o@1 mvs18o@1;
+
+  suc WITH cen;
+  suc WITH hap;
+  cen WITH hap;
+
+  m1 WITH m2;
+
+  suc with m1@0;
+  cen with m1@0;
+  hap with m1@0;
+  suc with m2@0;
+  cen with m2@0;
+  hap with m2@0;
+
+  suc with m1@0;
+  cen with m1@0;
+  hap with m1@0;
+  suc with m2@0;
+  cen with m2@0;
+  hap with m2@0;
+
+  mvs1 (ev1);
+  mvs2 (ev2);
+  mvs3 (ev3);
+  mvs7 (ev7);
+  mvs8 (ev8);
+  mvs9 (ev9);
+  mvs13 (ev13);
+  mvs14 (ev14);
+  mvs15 (ev15);
+  mvs4o (ev4);
+  mvs5o (ev5);
+  mvs6o (ev6);
+  mvs10o (ev10);
+  mvs11o (ev11);
+  mvs12o (ev12);
+  mvs16o (ev16);
+  mvs17o (ev17);
+  mvs18o (ev18);
+
+  suc@1;
+  cen@1;
+  hap@1;
+  m1*1;
+  m2*1;
+
+OUTPUT: TECH1 MOD (3.84) svalues CINTERVAL standardized; 
+
+
